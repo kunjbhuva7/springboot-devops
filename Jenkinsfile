@@ -1,5 +1,3 @@
-# done 2
-
 pipeline {
     agent any
 
