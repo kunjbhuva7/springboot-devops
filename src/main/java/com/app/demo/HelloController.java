@@ -8,7 +8,9 @@ public class HelloController {
 
     @GetMapping("/hello")
     public String hello() {
-        return "Hello DevOps!";
+        return "<div style='text-align:center; margin-top:50px; font-size:40px; font-weight:bold;'>"
+                + "Hello DevOps!"
+                + "</div>";
     }
 }
 
