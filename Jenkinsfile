@@ -1,5 +1,3 @@
-#donenewpipline
-
 pipeline {
     agent any
 
