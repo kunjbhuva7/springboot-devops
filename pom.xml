@@ -20,11 +20,13 @@
     </properties>
 
     <dependencies>
+        <!-- REST API -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!-- Unit Testing -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -34,11 +36,19 @@
 
     <build>
         <plugins>
+            <!-- Build and push Docker image without Docker daemon -->
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.4.1</version>
+                <configuration>
+                    <to>
+                        <image>kunj22/springboot-devops</image>
+                    </to>
+                </configuration>
             </plugin>
         </plugins>
     </build>
+
 </project>
 

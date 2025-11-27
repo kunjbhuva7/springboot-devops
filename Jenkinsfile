@@ -26,42 +26,38 @@ pipeline {
             }
         }
 
-        stage('Build JAR') {
+        stage('Build & Push Image (Jib)') {
             steps {
-                sh 'mvn clean package -DskipTests'
-            }
-        }
-
-        stage('Build Docker Image') {
-            steps {
-                sh "docker build -t ${IMAGE_NAME}:${BUILD_NUMBER} ."
-            }
-        }
-
-        stage('Login & Push Image') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: "${DOCKERHUB_CREDENTIALS}", usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-                    sh "echo $PASS | docker login -u $USER --password-stdin"
-                    sh "docker push ${IMAGE_NAME}:${BUILD_NUMBER}"
+                withCredentials([usernamePassword(
+                    credentialsId: "${DOCKERHUB_CREDENTIALS}",
+                    usernameVariable: 'USER',
+                    passwordVariable: 'PASS'
+                )]) {
+                    sh """
+                       mvn -DskipTests \
+                        -Djib.to.image=${IMAGE_NAME}:${BUILD_NUMBER} \
+                        -Djib.to.auth.username=$USER \
+                        -Djib.to.auth.password=$PASS \
+                        jib:build
+                    """
                 }
             }
         }
 
-        stage('Deploy Container') {
+        stage('Deploy Application (JAR Run)') {
             steps {
-                sh "docker stop springboot-devops || true"
-                sh "docker rm springboot-devops || true"
-                sh "docker run -d -p 8080:8080 --name springboot-devops ${IMAGE_NAME}:${BUILD_NUMBER}"
+                sh "pkill -f springboot-devops || true"
+                sh "nohup java -jar target/*.jar > app.log 2>&1 &"
             }
         }
     }
 
     post {
         success {
-            echo "Deployment Successful ✅"
+            echo "✅ Pipeline Success — Image pushed & App deployed"
         }
         failure {
-            echo "Pipeline Failed ❌"
+            echo "❌ Pipeline Failed"
         }
     }
 }
