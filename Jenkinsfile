@@ -47,7 +47,7 @@ pipeline {
         stage('Deploy Application (JAR Run)') {
             steps {
                 sh "pkill -f springboot-devops || true"
-                sh "nohup java -jar target/*.jar > app.log 2>&1 &"
+                sh "nohup java -jar target/*.jar --server.port=3555 > app.log 2>&1 &"
             }
         }
     }
