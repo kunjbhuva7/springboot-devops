@@ -4,12 +4,10 @@
          https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.springbootdevops</groupId>
+    <groupId>com.devops.app</groupId>
     <artifactId>springboot-devops</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
-
-    <name>springboot-devops</name>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -22,13 +20,11 @@
     </properties>
 
     <dependencies>
-        <!-- Web API -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- Unit testing -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -38,13 +34,11 @@
 
     <build>
         <plugins>
-            <!-- Package executable JAR -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
-
 </project>
 
