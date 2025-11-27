@@ -44,7 +44,7 @@ pipeline {
             }
         }
 
-        stage('Deploy Application (JAR Run)') {
+        stage('Deploy Application on Port 3555') {
             steps {
                 sh "pkill -f springboot-devops || true"
                 sh "nohup java -jar target/*.jar --server.port=3555 > app.log 2>&1 &"
@@ -54,7 +54,8 @@ pipeline {
 
     post {
         success {
-            echo "✅ Pipeline Success — Image pushed & App deployed"
+            echo "✅ Deployment Successful — Running on port 3555"
+            echo "Test using: curl http://localhost:3555/hello"
         }
         failure {
             echo "❌ Pipeline Failed"
